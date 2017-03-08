@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Page</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="../socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.js"></script>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <form action="">
+        <input id="m" autocomplete="off" />
+        <button>Send</button>
+    </form>
+
+    <script>
+        const socket = io();
+        $("form").submit( function () {
+            socket.emit("chat_message", $("#m").val());
+            $("#m").val("");
+            return false;
+        });
+        socket.on("chat_message", function (msg) {
+            $("#messages").append($("<li>").text(msg));
+        });
+    </script>
+
+</body>
+</html>
